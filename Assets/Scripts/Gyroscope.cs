@@ -8,10 +8,14 @@ public class Gyroscope : MonoBehaviour
 
     Vector3 m_rotation;
     [HideInInspector] public bool m_playerInPosition;
-    public Transform m_player;
+
+    MeshRenderer m_renderer;
+    public Material[] m_material;
 
     private void Start()
     {
+        m_renderer = GetComponent<MeshRenderer>();
+
         Input.gyro.enabled = true;
     }
 
@@ -22,6 +26,18 @@ public class Gyroscope : MonoBehaviour
             m_rotation.z = Input.gyro.rotationRateUnbiased.z * m_rotationMultiplier;
 
             transform.Rotate(m_rotation);
+
+            if (m_renderer.material != m_material[1])
+            {
+                m_renderer.material = m_material[1];
+            }
+        }
+        else
+        {
+            if (m_renderer.material != m_material[0])
+            {
+                m_renderer.material = m_material[0];
+            }
         }
     }
 }

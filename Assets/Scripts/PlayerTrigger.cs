@@ -18,9 +18,7 @@ public class PlayerTrigger : MonoBehaviour
         {
             Debug.Log("Player In Position");
 
-            m_gyro.m_playerInPosition = true;
-
-            m_playerMovement.gameObject.transform.parent = transform;
+            other.gameObject.transform.parent = transform;
         }
     }
 
@@ -30,9 +28,7 @@ public class PlayerTrigger : MonoBehaviour
         {
             Debug.Log("Player Out Position");
 
-            m_gyro.m_playerInPosition = false;
-
-            m_playerMovement.gameObject.transform.parent = null;
+            other.gameObject.transform.parent = null;            
         }
     }
 }
