@@ -85,12 +85,12 @@ public class ButtonMovement : MonoBehaviour
             }
 
             m_gyro = nearestGear.GetComponent<Gyroscope>();
-            m_gyro.m_playerInPosition = true;
+            m_gyro.m_canRotate = true;
         }
         else
         {
             focusPressed = false;
-            m_gyro.m_playerInPosition = false;
+            m_gyro.m_canRotate = false;
         }
     }
 }
