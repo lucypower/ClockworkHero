@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Gyroscope : MonoBehaviour
 {
+    public bool m_debugRotation;
+    public bool m_debugReverse;
     public float m_rotationMultiplier;
 
     Vector3 m_rotation;
@@ -66,29 +68,28 @@ public class Gyroscope : MonoBehaviour
                     {
                         gear.transform.Rotate(-m_rotation);
                     }
-
-                    //gear.transform.Rotate(m_rotation);
                 }
             }
-                //for (int i = 0; i < m_gyroscopes.Length; i++)
-                //{
-                //    if (IsOddEven(i))
-                //    {
-                //        m_gyroscopes[i].m_rotation.z = Input.gyro.rotationRateUnbiased.z * m_rotationMultiplier;
-                //    }
-                //    else
-                //    {
-                //        m_gyroscopes[i].m_rotation.z = Input.gyro.rotationRateUnbiased.z * m_rotationMultiplier * 1;
-                //    }
-
-                //    m_gyroscopes[i].transform.Rotate(m_rotation);
-                //}
         }
         else
         {
             if (m_renderer.material != m_material[0])
             {
                 m_renderer.material = m_material[0];
+            }
+        }
+
+        if (m_debugRotation)
+        {
+            m_rotation.z = 1 * m_rotationMultiplier * Time.deltaTime;
+
+            if (m_debugReverse)
+            {
+                transform.Rotate(m_rotation);
+            }
+            else
+            {
+                transform.Rotate(-m_rotation);
             }
         }
     }
