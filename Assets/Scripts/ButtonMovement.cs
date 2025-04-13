@@ -25,7 +25,7 @@ public class ButtonMovement : MonoBehaviour
     {
         if (leftPressed && !rightPressed)
         {
-            m_rigidbody.velocity = new Vector3(-1 * m_speed, m_rigidbody.velocity.y, 0); //TODO: Watch out when adding jumping, need to counteract this downwards force too
+            m_rigidbody.velocity = new Vector3(-1 * m_speed, m_rigidbody.velocity.y, 0);
         }
         else if (rightPressed && !leftPressed)
         {
@@ -38,10 +38,12 @@ public class ButtonMovement : MonoBehaviour
 
         if (jumpPressed)
         {
-            Debug.Log("Jump");
             jumpPressed = false;
 
-            m_rigidbody.AddForce(new Vector3(0, 1 * m_jumpForce, 0), ForceMode.Impulse);
+            if (-0.5f <= m_rigidbody.velocity.y && m_rigidbody.velocity.y <= 0.5f)
+            {
+                m_rigidbody.AddForce(new Vector3(0, 1 * m_jumpForce, 0), ForceMode.Impulse);
+            }            
         }
 
         transform.rotation = Quaternion.identity;
