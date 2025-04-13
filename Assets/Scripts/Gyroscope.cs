@@ -91,7 +91,7 @@ public class Gyroscope : MonoBehaviour
                 }
             }
 
-            if (m_isVerticalPuzzle)
+            if (m_isPlatformPuzzle)
             {
                 if (m_canPlatformMove)
                 {
