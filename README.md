@@ -14,3 +14,8 @@ Rotate gears = uses the gyroscope of the phone (gears must be focused on with th
 # Assets
 
 Gear Creator = https://assetstore.unity.com/packages/tools/modeling/gearfactory-111219<br/>
+
+# Build
+
+Build folder will have 2 sub-folders, one for an Android build and one for an iOS build<br/>
+(Development and testing was done with the android build, so iOS miiiiight be buggy but it should be all good in theory ^-^ )
