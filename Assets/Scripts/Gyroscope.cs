@@ -6,18 +6,24 @@ using UnityEngine;
 
 public class Gyroscope : MonoBehaviour
 {
+    public bool m_debugRotation;
+    public bool m_debugReverse;
     public float m_rotationMultiplier;
 
+    [Header("GyroMechanic")]
     Vector3 m_rotation;
     [HideInInspector] public bool m_canRotate;
 
-    [Category ("Focus Mechanic")]
+    [Header("FocusMechanic")]
+    [SerializeField] Material[] m_material;
     MeshRenderer m_renderer;
-    public Material[] m_material;
 
-    [Category("Puzzle")]
-    public bool m_isPuzzle;
-    public Gyroscope[] m_gyroscopes;
+    [Header("Puzzle")]
+    [SerializeField] bool m_isVerticalPuzzle;
+    [SerializeField] bool m_isPlatformPuzzle;
+    [SerializeField] Transform m_platform;
+    [HideInInspector] public bool m_canPlatformMove;
+    Gyroscope[] m_gyroscopes;
     int m_siblingIndex;
 
     private void Start()
@@ -26,7 +32,7 @@ public class Gyroscope : MonoBehaviour
 
         Input.gyro.enabled = true;
 
-        if (m_isPuzzle)
+        if (m_isVerticalPuzzle)
         {
             m_gyroscopes = transform.parent.GetComponentsInChildren<Gyroscope>();
             m_siblingIndex = GetIndex(this);
@@ -35,6 +41,22 @@ public class Gyroscope : MonoBehaviour
 
     private void Update()
     {
+        if (m_debugRotation)
+        {
+            m_rotation.z = 1 * m_rotationMultiplier * Time.deltaTime;
+
+            if (m_debugReverse)
+            {
+                transform.Rotate(m_rotation);
+            }
+            else
+            {
+                transform.Rotate(-m_rotation);
+            }
+
+            return;
+        }
+
         if (m_canRotate)
         {
             if (m_renderer.material != m_material[1])
@@ -42,7 +64,7 @@ public class Gyroscope : MonoBehaviour
                 m_renderer.material = m_material[1];
             }
 
-            if (!m_isPuzzle)
+            if (!m_isVerticalPuzzle)
             {
                 m_rotation.z = Input.gyro.rotationRateUnbiased.z * m_rotationMultiplier;
 
@@ -56,8 +78,6 @@ public class Gyroscope : MonoBehaviour
 
                     gear.m_rotation.z = Input.gyro.rotationRateUnbiased.z * m_rotationMultiplier;
                     
-                    Debug.Log(index);
-
                     if (index == m_siblingIndex)
                     {
                         gear.transform.Rotate(m_rotation);
@@ -66,23 +86,16 @@ public class Gyroscope : MonoBehaviour
                     {
                         gear.transform.Rotate(-m_rotation);
                     }
-
-                    //gear.transform.Rotate(m_rotation);
                 }
             }
-                //for (int i = 0; i < m_gyroscopes.Length; i++)
-                //{
-                //    if (IsOddEven(i))
-                //    {
-                //        m_gyroscopes[i].m_rotation.z = Input.gyro.rotationRateUnbiased.z * m_rotationMultiplier;
-                //    }
-                //    else
-                //    {
-                //        m_gyroscopes[i].m_rotation.z = Input.gyro.rotationRateUnbiased.z * m_rotationMultiplier * 1;
-                //    }
 
-                //    m_gyroscopes[i].transform.Rotate(m_rotation);
-                //}
+            if (m_isPlatformPuzzle)
+            {
+                if (m_canPlatformMove)
+                {
+                    MovePlatform();
+                }
+            }
         }
         else
         {
@@ -101,8 +114,16 @@ public class Gyroscope : MonoBehaviour
         return index;
     }
 
-    bool IsOddEven(int gearIndex)
+    void MovePlatform()
     {
-         return gearIndex % 2 == 0;
+        Debug.Log(" ");
+        if (m_isVerticalPuzzle)
+        {
+            m_platform.position = new Vector3(m_platform.position.x, m_platform.position.y - Input.gyro.rotationRateUnbiased.z, m_platform.position.z);
+        }
+        else
+        {
+            m_platform.position = new Vector3(m_platform.position.x - Input.gyro.rotationRateUnbiased.z, m_platform.position.y, m_platform.position.z);
+        }
     }
 }

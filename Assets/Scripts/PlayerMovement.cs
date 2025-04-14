@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows;
 
-public class ButtonMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [HideInInspector] public Rigidbody m_rigidbody;
 
-    bool leftPressed, rightPressed, focusPressed;
-    public float m_speed;
+    bool leftPressed, rightPressed, focusPressed, jumpPressed;
+    public float m_speed, m_jumpForce;
 
     GameObject[] m_gears;
     Gyroscope m_gyro;
 
+    [HideInInspector] public GameObject m_lastCheckpoint;
+
     private void Awake()
     {
         m_rigidbody = GetComponent<Rigidbody>();
+        
 
-        //m_gears = GameObject.FindGameObjectsWithTag("Gear").GetComponent<Gyroscope>();
         m_gears = GameObject.FindGameObjectsWithTag("Gear");
     }
 
@@ -25,15 +27,25 @@ public class ButtonMovement : MonoBehaviour
     {
         if (leftPressed && !rightPressed)
         {
-            m_rigidbody.velocity = new Vector3(-1 * m_speed, -2, 0); //TODO: Watch out when adding jumping, need to counteract this downwards force too
+            m_rigidbody.velocity = new Vector3(-1 * m_speed, m_rigidbody.velocity.y, 0);
         }
         else if (rightPressed && !leftPressed)
         {
-            m_rigidbody.velocity = new Vector3(1 * m_speed, -2, 0);
+            m_rigidbody.velocity = new Vector3(1 * m_speed, m_rigidbody.velocity.y, 0);
         }
         else
         {
-            m_rigidbody.velocity = new Vector3(0, -2, 0);
+            m_rigidbody.velocity = new Vector3(0, m_rigidbody.velocity.y, 0);
+        }
+
+        if (jumpPressed)
+        {
+            jumpPressed = false;
+
+            if (-0.5f <= m_rigidbody.velocity.y && m_rigidbody.velocity.y <= 0.5f)
+            {
+                m_rigidbody.AddForce(new Vector3(0, 1 * m_jumpForce, 0), ForceMode.Impulse);
+            }            
         }
 
         transform.rotation = Quaternion.identity;
@@ -92,5 +104,10 @@ public class ButtonMovement : MonoBehaviour
             focusPressed = false;
             m_gyro.m_canRotate = false;
         }
+    }
+
+    public void Jump()
+    {
+        jumpPressed = true;
     }
 }

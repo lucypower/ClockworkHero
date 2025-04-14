@@ -8,8 +8,6 @@ public class PlayerTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player In Position");
-
             other.gameObject.transform.parent = transform;
         }
     }
@@ -18,8 +16,6 @@ public class PlayerTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player Out Position");
-
             other.gameObject.transform.parent = null;            
         }
     }
