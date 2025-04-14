@@ -78,8 +78,6 @@ public class Gyroscope : MonoBehaviour
 
                     gear.m_rotation.z = Input.gyro.rotationRateUnbiased.z * m_rotationMultiplier;
                     
-                    Debug.Log(index);
-
                     if (index == m_siblingIndex)
                     {
                         gear.transform.Rotate(m_rotation);
@@ -95,15 +93,7 @@ public class Gyroscope : MonoBehaviour
             {
                 if (m_canPlatformMove)
                 {
-                    m_platform.position = new Vector3(m_platform.position.x - Input.gyro.rotationRateUnbiased.z, m_platform.position.y, m_platform.position.z);
-                    //if (Input.gyro.rotationRateUnbiased.z > 0)
-                    //{
-                    //    MovePlatform(-1);
-                    //}
-                    //else
-                    //{
-                    //    MovePlatform(1);
-                    //}
+                    MovePlatform();
                 }
             }
         }
@@ -124,8 +114,16 @@ public class Gyroscope : MonoBehaviour
         return index;
     }
 
-    void MovePlatform(int direction)
+    void MovePlatform()
     {
-        m_platform.position = new Vector3(m_platform.position.x + (0.1f * direction), 0, 0);
+        Debug.Log(" ");
+        if (m_isVerticalPuzzle)
+        {
+            m_platform.position = new Vector3(m_platform.position.x, m_platform.position.y - Input.gyro.rotationRateUnbiased.z, m_platform.position.z);
+        }
+        else
+        {
+            m_platform.position = new Vector3(m_platform.position.x - Input.gyro.rotationRateUnbiased.z, m_platform.position.y, m_platform.position.z);
+        }
     }
 }

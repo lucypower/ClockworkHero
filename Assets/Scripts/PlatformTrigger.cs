@@ -9,6 +9,9 @@ public class PlatformTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.transform.position = new Vector3(other.transform.position.x, other.transform.position.y, 0);
+
+            PlayerMovement player = other.GetComponent<PlayerMovement>();
+            player.m_lastCheckpoint = gameObject;
         }
     }
 }

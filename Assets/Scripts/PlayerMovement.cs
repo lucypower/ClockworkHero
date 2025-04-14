@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows;
 
-public class ButtonMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [HideInInspector] public Rigidbody m_rigidbody;
 
@@ -12,6 +12,8 @@ public class ButtonMovement : MonoBehaviour
 
     GameObject[] m_gears;
     Gyroscope m_gyro;
+
+    [HideInInspector] public GameObject m_lastCheckpoint;
 
     private void Awake()
     {

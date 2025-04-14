@@ -7,6 +7,7 @@ TagManager:
   - GearTrigger
   - Gear
   - Platform
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class PlatformCheck : MonoBehaviour
+public class PlatformPuzzle : MonoBehaviour
 {
     [SerializeField] Transform m_platform;
     Gyroscope m_gyro;
